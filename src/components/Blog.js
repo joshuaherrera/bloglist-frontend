@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
-const Blog = ({ blog, blogService }) => {
+const Blog = ({ blog, blogService, setBlogs, user }) => {
   const [visible, setVisible] = useState(false);
   const [label, setLabel] = useState("view");
   const [blogLikes, setBlogLikes] = useState(blog.likes);
+
   const showWhenVisible = { display: visible ? "" : "none" };
 
   const blogStyle = {
@@ -27,9 +28,28 @@ const Blog = ({ blog, blogService }) => {
     setBlogLikes(b.likes);
   };
 
-  const addedByUser = () => {
-    if (blog.user) {
-      return <p>Blog added by: {blog.user.name}</p>;
+  const removeBlog = async (event) => {
+    event.preventDefault();
+    // check if blog user === logged in user
+    await blogService.deleteBlog(blog.id);
+    blogService.getAll().then((blogs) => setBlogs(blogs));
+  };
+
+  const removeButton = () => {
+    if (blog.user.username === user.user) {
+      return (
+        <button
+          onClick={(event) => {
+            const msg = `Delete Blog "${blog.title}?"`;
+            console.log(user);
+            if (window.confirm(msg)) {
+              removeBlog(event);
+            }
+          }}
+        >
+          remove
+        </button>
+      );
     }
   };
 
@@ -43,7 +63,8 @@ const Blog = ({ blog, blogService }) => {
           <p>
             likes {blogLikes} <button onClick={addLike}>like</button>
           </p>
-          {addedByUser()}
+          <p>Blog added by: {blog.user.name}</p>
+          <p>{removeButton()}</p>
         </div>
       </div>
     </div>

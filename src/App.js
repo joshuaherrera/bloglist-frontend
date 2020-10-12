@@ -127,7 +127,13 @@ const App = () => {
       {blogs
         .sort((x, y) => (x.likes < y.likes ? 1 : -1))
         .map((b) => (
-          <Blog key={b.id} blog={b} blogService={blogService} />
+          <Blog
+            key={b.id}
+            blog={b}
+            blogService={blogService}
+            setBlogs={setBlogs}
+            user={user}
+          />
         ))}
     </div>
   );
