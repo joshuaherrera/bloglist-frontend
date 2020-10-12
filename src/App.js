@@ -124,9 +124,11 @@ const App = () => {
         <NewBlog addBlog={submitNewBlog} />
       </Togglable>
 
-      {blogs.map((b) => (
-        <Blog key={b.id} blog={b} />
-      ))}
+      {blogs
+        .sort((a, b) => (a.likes < b.likes ? 1 : -1))
+        .map((b) => (
+          <Blog key={b.id} blog={b} blogService={blogService} />
+        ))}
     </div>
   );
 };
