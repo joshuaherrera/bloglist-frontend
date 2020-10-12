@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 
-const NewBlog = ({ blog, submitNewBlog, setBlog }) => {
+const NewBlog = ({ addBlog }) => {
+  const [blog, setBlog] = useState({ title: "", author: "", url: "" });
+
+  const createBlog = (event) => {
+    event.preventDefault();
+    addBlog(blog);
+  };
+
   return (
-    <form onSubmit={submitNewBlog}>
+    <form onSubmit={createBlog}>
       <div>
         title{" "}
         <input
-          type="text"
           value={blog.title}
           name="title"
           onChange={({ target }) =>
@@ -20,7 +26,6 @@ const NewBlog = ({ blog, submitNewBlog, setBlog }) => {
       <div>
         author{" "}
         <input
-          type="text"
           value={blog.author}
           name="author"
           onChange={({ target }) =>
@@ -34,7 +39,6 @@ const NewBlog = ({ blog, submitNewBlog, setBlog }) => {
       <div>
         url{" "}
         <input
-          type="text"
           value={blog.url}
           name="url"
           onChange={({ target }) =>
