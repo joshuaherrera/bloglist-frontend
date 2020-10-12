@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
 import NewBlog from "./components/NewBlog";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
+
 import "./App.css";
 
 const App = () => {
@@ -12,7 +14,6 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [blog, setBlog] = useState({});
   const [message, setMsg] = useState(null);
   const [msgType, setMsgType] = useState("success");
 
@@ -73,12 +74,14 @@ const App = () => {
     setMsg("successfully logged out");
   };
 
-  const submitNewBlog = async (event) => {
-    event.preventDefault();
+  const blogFormRef = useRef();
+
+  const submitNewBlog = async (blogObject) => {
     try {
-      const newBlog = await blogService.createBlog(blog);
+      blogFormRef.current.toggleVisibility();
+      const newBlog = await blogService.createBlog(blogObject);
       setBlogs(blogs.concat(newBlog));
-      setBlog({ title: "", author: "", url: "" });
+      // setBlog({ title: "", author: "", url: "" });
       setTimeout(() => {
         setMsg(null);
       }, 5000);
@@ -117,7 +120,10 @@ const App = () => {
       <p>
         {user.name} logged in <button onClick={handleLogout}>logout</button>
       </p>
-      <NewBlog blog={blog} submitNewBlog={submitNewBlog} setBlog={setBlog} />
+      <Togglable buttonLabel="new blog" ref={blogFormRef}>
+        <NewBlog addBlog={submitNewBlog} />
+      </Togglable>
+
       {blogs.map((b) => (
         <Blog key={b.id} blog={b} />
       ))}
