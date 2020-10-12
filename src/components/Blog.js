@@ -4,7 +4,6 @@ const Blog = ({ blog, blogService }) => {
   const [visible, setVisible] = useState(false);
   const [label, setLabel] = useState("view");
   const [blogLikes, setBlogLikes] = useState(blog.likes);
-
   const showWhenVisible = { display: visible ? "" : "none" };
 
   const blogStyle = {
@@ -27,6 +26,13 @@ const Blog = ({ blog, blogService }) => {
     const b = await blogService.updateBlog(updatedBlog, blog.id);
     setBlogLikes(b.likes);
   };
+
+  const addedByUser = () => {
+    if (blog.user) {
+      return <p>Blog added by: {blog.user.name}</p>;
+    }
+  };
+
   return (
     <div style={blogStyle}>
       <div>
@@ -37,6 +43,7 @@ const Blog = ({ blog, blogService }) => {
           <p>
             likes {blogLikes} <button onClick={addLike}>like</button>
           </p>
+          {addedByUser()}
         </div>
       </div>
     </div>
