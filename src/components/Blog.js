@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, blogService }) => {
   const [visible, setVisible] = useState(false);
   const [label, setLabel] = useState("view");
+  const [blogLikes, setBlogLikes] = useState(blog.likes);
 
   const showWhenVisible = { display: visible ? "" : "none" };
 
@@ -14,21 +15,27 @@ const Blog = ({ blog }) => {
     marginBottom: 5,
   };
 
-  const handleClick = (event) => {
+  const viewMore = (event) => {
     event.preventDefault();
     setLabel(label === "view" ? "hide" : "view");
     setVisible(!visible);
   };
 
+  const addLike = async (event) => {
+    event.preventDefault();
+    const updatedBlog = { ...blog, likes: blog.likes + 1 };
+    const b = await blogService.updateBlog(updatedBlog, blog.id);
+    setBlogLikes(b.likes);
+  };
   return (
     <div style={blogStyle}>
       <div>
         {blog.title} - {blog.author}
-        <button onClick={handleClick}>{label}</button>
+        <button onClick={viewMore}>{label}</button>
         <div style={showWhenVisible}>
           <p>{blog.url}</p>{" "}
           <p>
-            likes {blog.likes} <button>like</button>
+            likes {blogLikes} <button onClick={addLike}>like</button>
           </p>
         </div>
       </div>
