@@ -50,7 +50,7 @@ const App = () => {
         setMsg(null);
       }, 5000);
       setMsgType("success");
-      setMsg(`successfully logged in`);
+      setMsg("successfully logged in");
     } catch (err) {
       setTimeout(() => {
         setMsg(null);
