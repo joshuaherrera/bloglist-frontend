@@ -55,10 +55,10 @@ const Blog = ({ blog, blogService, setBlogs, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
+      <div className="displayBlog">
         {blog.title} - {blog.author}
         <button onClick={viewMore}>{label}</button>
-        <div style={showWhenVisible}>
+        <div className="dynamicDisplay" style={showWhenVisible}>
           <p>{blog.url}</p>{" "}
           <p>
             likes {blogLikes} <button onClick={addLike}>like</button>
