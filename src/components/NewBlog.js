@@ -14,6 +14,7 @@ const NewBlog = ({ addBlog }) => {
         title{" "}
         <input
           value={blog.title}
+          id="title"
           name="title"
           onChange={({ target }) =>
             setBlog({
@@ -27,6 +28,7 @@ const NewBlog = ({ addBlog }) => {
         author{" "}
         <input
           value={blog.author}
+          id="author"
           name="author"
           onChange={({ target }) =>
             setBlog({
@@ -40,6 +42,7 @@ const NewBlog = ({ addBlog }) => {
         url{" "}
         <input
           value={blog.url}
+          id="url"
           name="url"
           onChange={({ target }) =>
             setBlog({
