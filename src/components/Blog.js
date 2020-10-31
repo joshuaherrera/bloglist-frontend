@@ -25,7 +25,10 @@ const Blog = ({ blog, blogService, setBlogs, user }) => {
     event.preventDefault();
     const updatedBlog = { ...blog, likes: blog.likes + 1 };
     const b = await blogService.updateBlog(updatedBlog, blog.id);
-    setBlogLikes(b.likes);
+    // added conditional for testing
+    if (b) {
+      setBlogLikes(b.likes);
+    }
   };
 
   const removeBlog = async (event) => {
@@ -59,8 +62,8 @@ const Blog = ({ blog, blogService, setBlogs, user }) => {
         {blog.title} - {blog.author}
         <button onClick={viewMore}>{label}</button>
         <div className="dynamicDisplay" style={showWhenVisible}>
-          <p>{blog.url}</p>{" "}
-          <p>
+          <p id="blogUrl">{blog.url}</p>{" "}
+          <p id="blogLikes">
             likes {blogLikes} <button onClick={addLike}>like</button>
           </p>
           <p>Blog added by: {blog.user.name}</p>
